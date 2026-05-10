@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface TelefoneMapper {
     TelefoneResponseDTO toDTO(Telefone telefone);
+
     @Mapping(target = "id", ignore = true)
     Telefone toEntity(TelefoneRequestDTO telefoneRequestDTO);
 }

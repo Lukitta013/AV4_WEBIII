@@ -12,11 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/docs")
+@RequestMapping("/documentos")
 public class DocumentoController {
-    @Autowired
-    private CadastrarDoc cadastrarDoc;
+
+    @Autowired private CadastrarDoc cadastrarDoc;
     @Autowired private SelecionarDoc selecionarDoc;
     @Autowired private AlterarDoc alterarDoc;
     @Autowired private ExcluirDoc excluirDoc;
@@ -24,6 +26,11 @@ public class DocumentoController {
     @PostMapping
     public ResponseEntity<DocumentoResponseDTO> cadastrar(@RequestBody @Valid DocumentoRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cadastrarDoc.criarDocumento(dto));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DocumentoResponseDTO>> listar() {
+        return ResponseEntity.ok(selecionarDoc.listarDocumentos());
     }
 
     @GetMapping("/{id}")
@@ -41,46 +48,5 @@ public class DocumentoController {
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
         excluirDoc.excluirDocumento(id);
         return ResponseEntity.noContent().build();
-        //Em vez de você ficar pensando nele
-        //Em vez de você viver chorando por ele
-        //Pense em mim, chore por mim
-        //Liga pra mim, não, não liga pra ele
-        //Pense em mim, chore por mim
-        //Liga pra mim, não, não liga pra ele
-        //Pra ele, não chore por ele
-        //
-        //Se lembre que eu há muito tempo te amo
-        //Te amo, te amo
-        //Quero fazer você feliz
-        //Vamos pegar o primeiro avião
-        //Com destino à felicidade
-        //A felicidade pra mim é você
-        //
-        //Pense em mim, chore por mim
-        //Liga pra mim, não, não liga pra ele
-        //Pense em mim, chore por mim
-        //Liga pra mim, não, não liga pra ele
-        //Pra ele, não chore por ele
-        //
-        //Se lembre que eu há muito tempo te amo
-        //Te amo, te amo
-        //Quero fazer você feliz
-        //Vamos pegar o primeiro avião
-        //Com destino à felicidade
-        //A felicidade pra mim é você
-        //
-        //Pense em mim, chore por mim
-        //Liga pra mim, não, não liga pra ele
-        //Pense em mim, chore por mim
-        //Liga pra mim, não, não liga pra ele
-        //Pra ele, não chore por ele
-        //
-        //Pense em mim, chore por mim
-        //Liga pra mim, não, não liga pra ele
-        //Pense em mim, chore por mim
-        //Liga pra mim, não, não liga pra ele
-        //Pra ele, não chore por ele
-        //
-        //Pense em mim, chore por mim
     }
 }

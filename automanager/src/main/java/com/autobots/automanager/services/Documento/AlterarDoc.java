@@ -11,20 +11,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AlterarDoc {
-    @Autowired
-    private DocumentoRepositorio documentoRepositorio;
+    @Autowired private DocumentoRepositorio documentoRepositorio;
+    @Autowired private DocumentoMapper documentoMapper;
 
-    @Autowired
-    private DocumentoMapper documentoMapper;
-
-    public DocumentoResponseDTO alterarDocumento(Long id,  DocumentoRequestDTO DTO) {
+    public DocumentoResponseDTO alterarDocumento(Long id, DocumentoRequestDTO dto) {
         Documento documento = documentoRepositorio.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Documento", id));
-        documento.setTipo(DTO.getTipo());
-        documento.setNumero(DTO.getNumero());
-
-        Documento atualizado = documentoRepositorio.save(documento);
-        return documentoMapper.totDTO(atualizado);
-
+        documento.setTipoDocumento(dto.getTipo());
+        documento.setNumero(dto.getNumero());
+        return documentoMapper.toDTO(documentoRepositorio.save(documento));
     }
 }

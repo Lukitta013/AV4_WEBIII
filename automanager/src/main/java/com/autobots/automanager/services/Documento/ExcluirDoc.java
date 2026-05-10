@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ExcluirDoc {
-    @Autowired
-    DocumentoRepositorio documentoRepositorio;
+    @Autowired private DocumentoRepositorio documentoRepositorio;
 
-    public void excluirDocumento(Long id){
-        Documento documento = documentoRepositorio.findById(id).orElseThrow(()-> new RecursoNaoEncontradoException("Documento", id));
+    public void excluirDocumento(Long id) {
+        Documento documento = documentoRepositorio.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Documento", id));
         documentoRepositorio.delete(documento);
     }
 }

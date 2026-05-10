@@ -8,7 +8,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface DocumentoMapper {
-    DocumentoResponseDTO totDTO(Documento documento);
+    @Mapping(target = "tipo", source = "tipoDocumento")
+    DocumentoResponseDTO toDTO(Documento documento);
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "tipoDocumento", source = "tipo")
     Documento toEntity(DocumentoRequestDTO documentoRequestDTO);
 }

@@ -8,14 +8,16 @@ import com.autobots.automanager.services.Endereco.ExcluirEndereco;
 import com.autobots.automanager.services.Endereco.SelecionarEndereco;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/enderecos")
 public class EnderecoController {
+
     @Autowired private CadastrarEndereco cadastrarEndereco;
     @Autowired private SelecionarEndereco selecionarEndereco;
     @Autowired private AlterarEndereco alterarEndereco;
@@ -26,9 +28,14 @@ public class EnderecoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cadastrarEndereco.cadastrarEndereco(dto));
     }
 
+    @GetMapping
+    public ResponseEntity<List<EnderecoResponseDTO>> listar() {
+        return ResponseEntity.ok(selecionarEndereco.listarEnderecos());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoResponseDTO> pegar(@PathVariable Long id) {
-        return ResponseEntity.ok(selecionarEndereco.selecionarDocumento(id));
+        return ResponseEntity.ok(selecionarEndereco.selecionarEndereco(id));
     }
 
     @PutMapping("/{id}")

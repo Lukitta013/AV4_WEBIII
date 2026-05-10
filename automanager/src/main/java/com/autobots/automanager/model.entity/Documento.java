@@ -1,5 +1,6 @@
 package com.autobots.automanager.model.entity;
 
+import com.autobots.automanager.enums.TipoDocumento;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,8 +17,7 @@ public class Documento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column
-	@NotBlank(message = "Tipo é obrigatório")
-	private String tipo;
+	private TipoDocumento tipoDocumento;
 	@Column(unique = true)
 	@NotBlank(message = "Número é obrigatório")
 	private String numero;

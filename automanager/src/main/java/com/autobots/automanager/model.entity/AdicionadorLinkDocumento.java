@@ -1,10 +1,11 @@
 package com.autobots.automanager.model.entity;
 
-import com.autobots.automanager.controller.ClienteController;
+import com.autobots.automanager.controller.DocumentoController;
 import com.autobots.automanager.dtos.response.DocumentoResponseDTO;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Component
@@ -12,12 +13,13 @@ public class AdicionadorLinkDocumento implements AdicionadorLink<DocumentoRespon
 
     @Override
     public void adicionarLink(DocumentoResponseDTO objeto) {
-        Link linkCliente = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder
-                        .methodOn(ClienteController.class)
-                        .listarClientes())
-                .withRel("clientes");
-        objeto.add(linkCliente);
+        Link selfLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(DocumentoController.class).pegar(objeto.getId()))
+                .withSelfRel();
+        Link colecaoLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(DocumentoController.class).listar())
+                .withRel("documentos");
+        objeto.add(selfLink, colecaoLink);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class ExcluirTelefone {
 
     public void excluirTelefone(Long id) {
         Telefone telefone = telefoneRepositorio.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Telefone", id)); // era "Teleone"
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Telefone", id));
         telefoneRepositorio.delete(telefone);
     }
 }

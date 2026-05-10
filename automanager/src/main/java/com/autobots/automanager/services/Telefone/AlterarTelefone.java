@@ -11,19 +11,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AlterarTelefone {
-    @Autowired
-    private TelefoneRepositorio telefoneRepositorio;
+    @Autowired private TelefoneRepositorio telefoneRepositorio;
+    @Autowired private TelefoneMapper telefoneMapper;
 
-    @Autowired
-    private TelefoneMapper telefoneMapper;
-
-    public TelefoneResponseDTO alterarTelefone(Long id, TelefoneRequestDTO DTO) {
+    public TelefoneResponseDTO alterarTelefone(Long id, TelefoneRequestDTO dto) {
         Telefone telefone = telefoneRepositorio.findById(id)
-                .orElseThrow(()-> new RecursoNaoEncontradoException("Telefone", id));
-        telefone.setDdd(DTO.getDdd());
-        telefone.setNumero(DTO.getNumero());
-
-        Telefone atualizado = telefoneRepositorio.save(telefone);
-        return  telefoneMapper.toDTO(atualizado);
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Telefone", id));
+        telefone.setDdd(dto.getDdd());
+        telefone.setNumero(dto.getNumero());
+        return telefoneMapper.toDTO(telefoneRepositorio.save(telefone));
     }
 }

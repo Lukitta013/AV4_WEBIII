@@ -1,10 +1,11 @@
 package com.autobots.automanager.model.entity;
 
-import com.autobots.automanager.controller.ClienteController;
+import com.autobots.automanager.controller.EnderecoController;
 import com.autobots.automanager.dtos.response.EnderecoResponseDTO;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Component
@@ -12,12 +13,13 @@ public class AdicionadorLinkEndereco implements AdicionadorLink<EnderecoResponse
 
     @Override
     public void adicionarLink(EnderecoResponseDTO objeto) {
-        Link linkCliente = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder
-                        .methodOn(ClienteController.class)
-                        .listarClientes())
-                .withRel("clientes");
-        objeto.add(linkCliente);
+        Link selfLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(EnderecoController.class).pegar(objeto.getId()))
+                .withSelfRel();
+        Link colecaoLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(EnderecoController.class).listar())
+                .withRel("enderecos");
+        objeto.add(selfLink, colecaoLink);
     }
 
     @Override
