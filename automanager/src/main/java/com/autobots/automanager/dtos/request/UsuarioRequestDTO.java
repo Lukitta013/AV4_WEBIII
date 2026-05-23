@@ -8,8 +8,11 @@ import java.util.Set;
 
 @Data
 public class UsuarioRequestDTO {
+
     @NotBlank
     private String nome;
     private String nomeSocial;
     private Set<PerfilUsuario> perfis;
+    private String nomeUsuario;
+    private String senha;
 }
