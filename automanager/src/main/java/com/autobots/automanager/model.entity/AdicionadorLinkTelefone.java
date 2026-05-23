@@ -13,13 +13,26 @@ public class AdicionadorLinkTelefone implements AdicionadorLink<TelefoneResponse
 
     @Override
     public void adicionarLink(TelefoneResponseDTO objeto) {
+        Long id = objeto.getId();
+
         Link selfLink = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(TelefoneController.class).pegar(objeto.getId()))
+                .linkTo(WebMvcLinkBuilder.methodOn(TelefoneController.class).pegar(id))
                 .withSelfRel();
+
         Link colecaoLink = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(TelefoneController.class).listar())
                 .withRel("telefones");
-        objeto.add(selfLink, colecaoLink);
+
+        Link atualizarLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(TelefoneController.class)
+                        .atualizar(id, null))
+                .withRel("atualizar");
+
+        Link excluirLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(TelefoneController.class).excluir(id))
+                .withRel("excluir");
+
+        objeto.add(selfLink, colecaoLink, atualizarLink, excluirLink);
     }
 
     @Override

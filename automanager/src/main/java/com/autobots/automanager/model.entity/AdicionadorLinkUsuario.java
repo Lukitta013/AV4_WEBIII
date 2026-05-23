@@ -1,6 +1,7 @@
 package com.autobots.automanager.model.entity;
 
 import com.autobots.automanager.controller.UsuarioController;
+import com.autobots.automanager.dtos.request.UsuarioRequestDTO;
 import com.autobots.automanager.dtos.response.UsuarioResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
@@ -19,13 +20,27 @@ public class AdicionadorLinkUsuario implements AdicionadorLink<UsuarioResponseDT
 
     @Override
     public void adicionarLink(UsuarioResponseDTO objeto) {
+        Long id = objeto.getId();
+
         Link selfLink = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).pegar(objeto.getId()))
+                .linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).pegar(id))
                 .withSelfRel();
+
         Link colecaoLink = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).listar())
                 .withRel("usuarios");
-        objeto.add(selfLink, colecaoLink);
+
+        Link atualizarLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class)
+                        .atualizar(id, null))
+                .withRel("atualizar");
+
+        Link excluirLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).excluir(id))
+                .withRel("excluir");
+
+        objeto.add(selfLink, colecaoLink, atualizarLink, excluirLink);
+
         if (objeto.getDocumentos() != null)
             adicionadorLinkDocumento.adicionarLink(objeto.getDocumentos().stream().toList());
         if (objeto.getEndereco() != null)

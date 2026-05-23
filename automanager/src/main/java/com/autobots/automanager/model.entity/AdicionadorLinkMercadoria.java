@@ -10,16 +10,29 @@ import java.util.List;
 
 @Component
 public class AdicionadorLinkMercadoria implements AdicionadorLink<MercadoriaResponseDTO> {
+
     @Override
     public void adicionarLink(MercadoriaResponseDTO objeto) {
+        Long id = objeto.getId();
+
         Link selfLink = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(MercadoriaController.class).pegar(objeto.getId()))
+                .linkTo(WebMvcLinkBuilder.methodOn(MercadoriaController.class).pegar(id))
                 .withSelfRel();
-        objeto.add(selfLink);
-        Link linkColecao = WebMvcLinkBuilder
+
+        Link colecaoLink = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(MercadoriaController.class).listar())
                 .withRel("mercadorias");
-        objeto.add(linkColecao);
+
+        Link atualizarLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(MercadoriaController.class)
+                        .atualizar(id, null))
+                .withRel("atualizar");
+
+        Link excluirLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(MercadoriaController.class).excluir(id))
+                .withRel("excluir");
+
+        objeto.add(selfLink, colecaoLink, atualizarLink, excluirLink);
     }
 
     @Override

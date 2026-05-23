@@ -13,13 +13,26 @@ public class AdicionadorLinkEmail implements AdicionadorLink<EmailResponseDTO> {
 
     @Override
     public void adicionarLink(EmailResponseDTO objeto) {
+        Long id = objeto.getId();
+
         Link selfLink = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(EmailController.class).pegar(objeto.getId()))
+                .linkTo(WebMvcLinkBuilder.methodOn(EmailController.class).pegar(id))
                 .withSelfRel();
+
         Link colecaoLink = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(EmailController.class).listar())
                 .withRel("emails");
-        objeto.add(selfLink, colecaoLink);
+
+        Link atualizarLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(EmailController.class)
+                        .atualizar(id, null))
+                .withRel("atualizar");
+
+        Link excluirLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(EmailController.class).excluir(id))
+                .withRel("excluir");
+
+        objeto.add(selfLink, colecaoLink, atualizarLink, excluirLink);
     }
 
     @Override

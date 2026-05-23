@@ -13,13 +13,26 @@ public class AdicionadorLinkEndereco implements AdicionadorLink<EnderecoResponse
 
     @Override
     public void adicionarLink(EnderecoResponseDTO objeto) {
+        Long id = objeto.getId();
+
         Link selfLink = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(EnderecoController.class).pegar(objeto.getId()))
+                .linkTo(WebMvcLinkBuilder.methodOn(EnderecoController.class).pegar(id))
                 .withSelfRel();
+
         Link colecaoLink = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(EnderecoController.class).listar())
                 .withRel("enderecos");
-        objeto.add(selfLink, colecaoLink);
+
+        Link atualizarLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(EnderecoController.class)
+                        .atualizar(id, null))
+                .withRel("atualizar");
+
+        Link excluirLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(EnderecoController.class).excluir(id))
+                .withRel("excluir");
+
+        objeto.add(selfLink, colecaoLink, atualizarLink, excluirLink);
     }
 
     @Override

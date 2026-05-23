@@ -13,13 +13,26 @@ public class AdicionadorLinkDocumento implements AdicionadorLink<DocumentoRespon
 
     @Override
     public void adicionarLink(DocumentoResponseDTO objeto) {
+        Long id = objeto.getId();
+
         Link selfLink = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(DocumentoController.class).pegar(objeto.getId()))
+                .linkTo(WebMvcLinkBuilder.methodOn(DocumentoController.class).pegar(id))
                 .withSelfRel();
+
         Link colecaoLink = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(DocumentoController.class).listar())
                 .withRel("documentos");
-        objeto.add(selfLink, colecaoLink);
+
+        Link atualizarLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(DocumentoController.class)
+                        .atualizar(id, null))
+                .withRel("atualizar");
+
+        Link excluirLink = WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(DocumentoController.class).excluir(id))
+                .withRel("excluir");
+
+        objeto.add(selfLink, colecaoLink, atualizarLink, excluirLink);
     }
 
     @Override
